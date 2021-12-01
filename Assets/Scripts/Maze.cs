@@ -39,7 +39,10 @@ public class Maze : MonoBehaviour
     public GameObject tSplit;
     public GameObject deadEnd;
     public GameObject corner;
-
+    public GameObject wallPiece;
+    public GameObject floorPiece;
+    public GameObject CielingPiece;
+    
     public GameObject FPC;
 
     // Start is called before the first frame update
@@ -214,6 +217,23 @@ public class Maze : MonoBehaviour
                     Vector3 pos = new Vector3(x * scale, 0, z * scale);
                     GameObject go = Instantiate(tSplit, pos, Quaternion.identity);
                 }
+                else if (map[x,z] == 0 && CountSqueareNeighbours(x,z) > 1 && CountDiagonalNeighbours(x,z)>= 1
+                    || CountSqueareNeighbours(x,z) >= 1 && CountDiagonalNeighbours(x,z) > 1)
+                {
+                    GameObject floor = Instantiate(floorPiece);
+                    floor.transform.position = new Vector3(x * scale, 0, z * scale);
+
+                    GameObject ceiling = Instantiate(CielingPiece);
+                    ceiling.transform.position = new Vector3(x * scale, 0, z * scale);
+
+                    locateWalls(x, z);
+                    if (top)
+                    {
+                        GameObject wall1 = Instantiate(wallPiece);
+                        wall1.transform.position= new Vector3(x * scale, 0, z * scale);
+                        wall1.transform.Rotate(0, 90, 0);
+                    }
+                }
                 else    
                 {                    
                     Vector3 pos = new Vector3(x * scale, 0, z * scale);
@@ -223,6 +243,21 @@ public class Maze : MonoBehaviour
                     
                 }
             }
+    }
+    bool top;
+    bool bottom;
+    bool left;
+    bool right;
+
+    public void locateWalls(int x, int z)
+    {
+        top = false;
+        bottom = false;
+        left = false;
+        right = false;
+
+        if (x <= 0 || x >= Width - 1 || z <= 0 || z >= Depth - 1) return;
+        if (map[x, z + 1] == 1) top = true;
     }
     
     bool Search2D(int c, int r, int[] pattern)

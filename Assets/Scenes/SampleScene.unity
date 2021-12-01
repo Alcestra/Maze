@@ -251,6 +251,9 @@ MonoBehaviour:
   tSplit: {fileID: 7571024425128105850, guid: 3d558f389fa05674e9e01c1ba3bd8587, type: 3}
   deadEnd: {fileID: 2919006322967314554, guid: 9a8eb2c9c36cf2d4a9c02b17757436de, type: 3}
   corner: {fileID: 8045834345223055596, guid: 85f07456e1324e84fb608aec7c817ca9, type: 3}
+  wallPiece: {fileID: 763451575937236835, guid: 3097afb5e6eb5364bb74b8e281a470ae, type: 3}
+  floorPiece: {fileID: 8348827932075834751, guid: c84f223c0cc623846ab2d02cf6b17e86, type: 3}
+  CielingPiece: {fileID: 8646675096973079668, guid: 6ef5462e44a1e804a9b1666962498ca2, type: 3}
   FPC: {fileID: 1803901712}
 --- !u!4 &1758925503
 Transform:
