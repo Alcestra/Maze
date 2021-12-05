@@ -39,10 +39,13 @@ public class Maze : MonoBehaviour
     public GameObject tSplit;
     public GameObject deadEnd;
     public GameObject corner;
-    public GameObject wallPiece;
     public GameObject floorPiece;
+    public GameObject wallPiece;
     public GameObject CielingPiece;
-    
+
+    public GameObject Pillar;
+    public GameObject Door;
+
     public GameObject FPC;
 
     // Start is called before the first frame update
@@ -50,7 +53,7 @@ public class Maze : MonoBehaviour
     {
         InitialiseMap();
         Generate();
-        AddRooms(5,4,10);//last numbers have to do with how many rooms, how far on the x can thye be and how far on the z can they be
+        AddRooms(3,4,5);//last numbers have to do with how many rooms, how far on the x can they be and how far on the z can they be
         DrawMap();
         PlaceFPC();
     }
@@ -226,12 +229,61 @@ public class Maze : MonoBehaviour
                     GameObject ceiling = Instantiate(CielingPiece);
                     ceiling.transform.position = new Vector3(x * scale, 0, z * scale);
 
-                    locateWalls(x, z);
+                    //WALLS
+                    GameObject pillarCorner;
+                    LocateWalls(x, z);
                     if (top)
                     {
                         GameObject wall1 = Instantiate(wallPiece);
                         wall1.transform.position= new Vector3(x * scale, 0, z * scale);
-                        wall1.transform.Rotate(0, 90, 0);
+                        wall1.name = "Top Wall";
+                        if (map[x + 1, z] == 0&& map[x + 1, z + 1] == 0)
+                        {
+                            pillarCorner  = Instantiate(Pillar);
+                            pillarCorner.transform.position = new Vector3(x * scale, 0, z * scale);
+                            pillarCorner.name = "Top Right Pillar";
+                        }
+                        if (map[x - 1, z] == 0 && map[x - 1, z + 1] == 0)
+                        {
+                            pillarCorner = Instantiate(Pillar);
+                            pillarCorner.transform.position = new Vector3((x-1) * scale, 0, z * scale);
+                            pillarCorner.name = "Top Left Pillar";
+                        }
+                    }
+                    if (bottom)
+                    {
+                        GameObject wall2 = Instantiate(wallPiece);
+                        wall2.transform.position = new Vector3(x * scale, 0, z * scale);
+                        wall2.transform.Rotate(0, 180, 0);
+                        wall2.name = "Bottom Wall";
+
+                        if (map[x+1, z] == 0 && map[x + 1, z - 1] == 0)
+                        {
+                            pillarCorner = Instantiate(Pillar);
+                            pillarCorner.transform.position = new Vector3(x * scale, 0, (z-1) * scale);
+                            pillarCorner.name = "bottom right pillar";
+                        }
+                        if (map[x - 1, z] == 0 && map[x - 1, z - 1] == 0)
+                        {
+                            pillarCorner = Instantiate(Pillar);
+                            pillarCorner.transform.position = new Vector3((x - 1) * scale, 0, (z-1) * scale);
+                            pillarCorner.name = "bottom Left Pillar";
+                        }
+                    }
+                    if (right)
+                    {
+                        GameObject wall3 = Instantiate(wallPiece);
+                        wall3.transform.position = new Vector3(x * scale, 0, z * scale);
+                        wall3.transform.Rotate(0, 90, 0);
+                        wall3.name = "Right Wall";
+
+                    }
+                    if (left)
+                    {
+                        GameObject wall4 = Instantiate(wallPiece);
+                        wall4.transform.position = new Vector3(x * scale, 0, z * scale);
+                        wall4.transform.Rotate(0, -90, 0);
+                        wall4.name = "Left Wall";
                     }
                 }
                 else    
@@ -249,7 +301,7 @@ public class Maze : MonoBehaviour
     bool left;
     bool right;
 
-    public void locateWalls(int x, int z)
+    public void LocateWalls(int x, int z)
     {
         top = false;
         bottom = false;
@@ -258,6 +310,9 @@ public class Maze : MonoBehaviour
 
         if (x <= 0 || x >= Width - 1 || z <= 0 || z >= Depth - 1) return;
         if (map[x, z + 1] == 1) top = true;
+        if (map[x, z - 1] == 1) bottom = true;
+        if (map[x + 1, z] == 1) right = true;
+        if (map[x-1 , z] == 1) left = true;
     }
     
     bool Search2D(int c, int r, int[] pattern)
