@@ -27,7 +27,7 @@ public class Maze : MonoBehaviour
     };
 
     //maze size  
-
+    public List<MapLocation> pillarLocations = new List<MapLocation>();
     public int Width = 30; // x
     public int Depth = 30; // z
     public byte[,] map;
@@ -237,17 +237,24 @@ public class Maze : MonoBehaviour
                         GameObject wall1 = Instantiate(wallPiece);
                         wall1.transform.position= new Vector3(x * scale, 0, z * scale);
                         wall1.name = "Top Wall";
-                        if (map[x + 1, z] == 0&& map[x + 1, z + 1] == 0)
+
+                        //pillars
+                        if (map[x + 1, z] == 0&& map[x + 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x,z)))
                         {
                             pillarCorner  = Instantiate(Pillar);
                             pillarCorner.transform.position = new Vector3(x * scale, 0, z * scale);
-                            pillarCorner.name = "Top Right Pillar";
+                            pillarCorner.name = "Top Right ";
+                            pillarLocations.Add(new MapLocation(x, z));
+                            pillarCorner.transform.localScale = new Vector3(1.01f, 1f, 1.01f);
                         }
-                        if (map[x - 1, z] == 0 && map[x - 1, z + 1] == 0)
+                        if (map[x - 1, z] == 0 && map[x - 1, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x-1, z)))
                         {
                             pillarCorner = Instantiate(Pillar);
                             pillarCorner.transform.position = new Vector3((x-1) * scale, 0, z * scale);
-                            pillarCorner.name = "Top Left Pillar";
+                            pillarCorner.name = "Top Left ";
+                            pillarLocations.Add(new MapLocation(x-1, z));
+                            pillarCorner.transform.localScale = new Vector3(1.01f, 1f, 1.01f);
+
                         }
                     }
                     if (bottom)
@@ -257,17 +264,25 @@ public class Maze : MonoBehaviour
                         wall2.transform.Rotate(0, 180, 0);
                         wall2.name = "Bottom Wall";
 
-                        if (map[x+1, z] == 0 && map[x + 1, z - 1] == 0)
+                        //pillars
+                        if (map[x + 1, z] == 0 && map[x + 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z-1)))
                         {
                             pillarCorner = Instantiate(Pillar);
                             pillarCorner.transform.position = new Vector3(x * scale, 0, (z-1) * scale);
-                            pillarCorner.name = "bottom right pillar";
+                            pillarCorner.name = "Bottom Right ";
+                            pillarLocations.Add(new MapLocation(x, z-1));
+                            pillarCorner.transform.localScale = new Vector3(1.01f, 1f, 1.01f);
+
+
                         }
-                        if (map[x - 1, z] == 0 && map[x - 1, z - 1] == 0)
+                        if (map[x - 1, z] == 0 && map[x - 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x-1, z-1)))
                         {
                             pillarCorner = Instantiate(Pillar);
                             pillarCorner.transform.position = new Vector3((x - 1) * scale, 0, (z-1) * scale);
-                            pillarCorner.name = "bottom Left Pillar";
+                            pillarCorner.name = "Bottom Left ";
+                            pillarLocations.Add(new MapLocation(x-1, z-1));
+                            pillarCorner.transform.localScale = new Vector3(1.01f, 1f, 1.01f);
+
                         }
                     }
                     if (right)
@@ -276,6 +291,26 @@ public class Maze : MonoBehaviour
                         wall3.transform.position = new Vector3(x * scale, 0, z * scale);
                         wall3.transform.Rotate(0, 90, 0);
                         wall3.name = "Right Wall";
+                        //pillars
+                        if (map[x + 1, z +1] == 0 && map[x, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z)))
+                        {
+                            pillarCorner = Instantiate(Pillar);
+                            pillarCorner.transform.position = new Vector3(x * scale, 0, z * scale);
+                            pillarCorner.name = "right top ";
+                            pillarLocations.Add(new MapLocation(x, z));
+                            pillarCorner.transform.localScale = new Vector3(1.01f, 1f, 1.01f);
+
+
+                        }
+                        if (map[x, z -1] == 0 && map[x + 1, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x, z-1)))
+                        {
+                            pillarCorner = Instantiate(Pillar);
+                            pillarCorner.transform.position = new Vector3(x * scale, 0, (z - 1) * scale);
+                            pillarCorner.name = "Right bottom ";
+                            pillarLocations.Add(new MapLocation(x, z-1));
+                            pillarCorner.transform.localScale = new Vector3(1.01f, 1f, 1.01f);
+
+                        }
 
                     }
                     if (left)
@@ -284,6 +319,62 @@ public class Maze : MonoBehaviour
                         wall4.transform.position = new Vector3(x * scale, 0, z * scale);
                         wall4.transform.Rotate(0, -90, 0);
                         wall4.name = "Left Wall";
+                        //pillars
+                        if (map[x - 1, z + 1] == 0 && map[x, z + 1] == 0 && !pillarLocations.Contains(new MapLocation(x-1, z)))
+                        {
+                            pillarCorner = Instantiate(Pillar);
+                            pillarCorner.transform.position = new Vector3((x -1) * scale, 0, z * scale);
+                            pillarCorner.name = "Left top ";
+                            pillarLocations.Add(new MapLocation(x-1, z));
+                            pillarCorner.transform.localScale = new Vector3(1.01f, 1f, 1.01f);
+
+                        }
+                        if (map[x -1 , z - 1] == 0 && map[x, z - 1] == 0 && !pillarLocations.Contains(new MapLocation(x-1, z-1)))
+                        {
+                            pillarCorner = Instantiate(Pillar);
+                            pillarCorner.transform.position = new Vector3( (x - 1) * scale, 0, (z - 1) * scale);
+                            pillarCorner.name = "Left bottom ";
+                            pillarLocations.Add(new MapLocation(x-1, z-1));
+                            pillarCorner.transform.localScale = new Vector3(1.01f, 1f, 1.01f);
+
+                        }
+                    }
+
+                    //DOORS
+                    GameObject doorWay;
+                    LocateDoors(x, z);
+                    if (top)
+                    {
+                        doorWay = Instantiate(Door);
+                        doorWay.transform.position = new Vector3(x * scale, 0, z * scale);
+                        doorWay.transform.Rotate(0, 180, 0);
+                        doorWay.name = "Top Doorway";
+                        doorWay.transform.Translate(0, 0, 0.01f);
+                    }
+                    if (bottom)
+                    {
+                        doorWay = Instantiate(Door);
+                        doorWay.transform.position = new Vector3(x * scale, 0, (z-1) * scale);
+                        doorWay.name = "Bottom Doorway";
+                        doorWay.transform.Translate(0, 0, 0.01f);
+
+                    }
+                    if (right)
+                    {
+                        doorWay = Instantiate(Door);
+                        doorWay.transform.position = new Vector3((x+1) * scale, 0, z * scale);
+                        doorWay.transform.Rotate(0,90, 0);
+                        doorWay.name = "Right Doorway";
+                        doorWay.transform.Translate(0, 0, 0.01f);
+
+                    }
+                    if (left)
+                    {
+                        doorWay = Instantiate(Door);
+                        doorWay.transform.position = new Vector3((x-1) * scale, 0, z * scale);
+                        doorWay.transform.Rotate(0,-90, 0);
+                        doorWay.name = "Left Doorway";
+                        doorWay.transform.Translate(0, 0, 0.01f);
                     }
                 }
                 else    
@@ -291,8 +382,7 @@ public class Maze : MonoBehaviour
                     Vector3 pos = new Vector3(x * scale, 0, z * scale);
                     GameObject block = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                     block.transform.localScale = new Vector3(scale, scale, scale);
-                    block.transform.position = pos;
-                    
+                    block.transform.position = pos;                    
                 }
             }
     }
@@ -314,7 +404,20 @@ public class Maze : MonoBehaviour
         if (map[x + 1, z] == 1) right = true;
         if (map[x-1 , z] == 1) left = true;
     }
-    
+    public void LocateDoors(int x, int z)
+    {
+        top = false;
+        bottom = false;
+        left = false;
+        right = false;
+
+        if (x <= 0 || x >= Width - 1 || z <= 0 || z >= Depth - 1) return;
+        if (map[x, z + 1] == 0 && map[x-1, z+1] == 1 && map[x+1,z+1]==1) top = true;
+        if (map[x, z - 1] == 0 && map[x-1, z-1] == 1 && map[x+1,z-1]==1) bottom = true;
+        if (map[x + 1, z] == 0 && map[x+1 ,z+1] == 1 && map[x+1,z-1]==1) right = true;
+        if (map[x - 1, z] == 0 && map[x-1, z+1] == 1 && map[x-1,z-1]==1) left = true;
+    }
+
     bool Search2D(int c, int r, int[] pattern)
     {
 
