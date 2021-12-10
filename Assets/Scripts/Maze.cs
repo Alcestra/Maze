@@ -53,7 +53,7 @@ public class Maze : MonoBehaviour
     {
         InitialiseMap();
         Generate();
-        AddRooms(3,4,5);//last numbers have to do with how many rooms, how far on the x can they be and how far on the z can they be
+        AddRooms(4,4,5);//last numbers have to do with how many rooms, how far on the x can they be and how far on the z can they be
         DrawMap();
         PlaceFPC();
     }
